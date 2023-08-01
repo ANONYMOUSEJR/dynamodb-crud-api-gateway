@@ -1,5 +1,3 @@
-service: dynamodb-crud-api
-
 provider:
   name: aws
   runtime: nodejs14.x
@@ -8,16 +6,16 @@ provider:
   environment:
     DYNAMODB_TABLE_NAME: ${self:custom.postsTableName}
 
-  custom:
-    postsTableName: posts-table-${self:provider.stage}
+custom:
+  postsTableName: posts-tablee-${self:provider.stage}
 
-  plugins:
-    - serverless-iam-roles-per-function
+plugins:
+  - serverless-iam-roles-per-function
 
 functions:
   getPost:
     handler: api.getPost
-    name: get-post
+    name: get-postt
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
@@ -28,10 +26,10 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:GetItem"
-    Resource: !GetAtt PostTable.Arn
+        Resource: !GetAtt PostsTable.Arn
   createPost:
     handler: api.createPost
-    name: create-post
+    name: create-postt
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
@@ -39,13 +37,13 @@ functions:
           path: post
           method: POST
     iamRoleStatements:
-        - Effect: "Allow"
-    Action:
+      - Effect: "Allow"
+        Action:
           - "dynamodb:PutItem"
-    Resource: !GetAtt PostTable.Arn
+        Resource: !GetAtt PostsTable.Arn
   updatePost:
     handler: api.updatePost
-    name: update-Post
+    name: update-postt
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
@@ -56,10 +54,10 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:UpdateItem"
-        Resource: !GetAtt PostTable.Arn
+        Resource: !GetAtt PostsTable.Arn
   deletePost:
     handler: api.deletePost
-    name: delete-Post
+    name: del-postt
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
@@ -67,37 +65,37 @@ functions:
           path: post/{postId}
           method: DELETE
     iamRoleStatements:
-        - Effect: "Allow"
-    Action:
+      - Effect: "Allow"
+        Action:
           - "dynamodb:DeleteItem"
-    Resource: !GetAtt PostTable.Arn
+        Resource: !GetAtt PostsTable.Arn
   getAllPosts:
     handler: api.getAllPosts
-    name: delete-Post
+    name: get-all-postss
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
       - http:
-        path: posts
-        method: GET
+          path: posts
+          method: GET
     iamRoleStatements:
       - Effect: "Allow"
         Action:
-        - "dynamodb:Scan"
-        Resource: !GetAtt PostTable.Arn
-
-resources:
-  Resources:
-    PostsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:custom.postsTableName}
-        AttributeDefinitions:
-          - AttributeName: postId
-            AttributeType: S
-        KeySchema:
-          - AttributeNmae: postId
-            KeyType: HASH
-        ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
+          - "dynamodb:Scan"
+        Resource: !GetAtt PostsTable.Arn
+  functions:
+  getProductById:
+    handler: api.getProductById
+    events:
+      - http:
+          path: posts/{PostId}
+          method: GET
+          request:
+            parameters:
+              querystrings:
+                currency: true
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:GetItem"
+        Resource: !GetAtt PostsTable.Arn
