@@ -34,7 +34,7 @@ jobs:
       run: yarn install
 
     - name: serverless deploy
-      uses: serverless/github-action@master
+      uses: serverless/github-action@dynamodb-crud-api-gateway
       with:
         args: deploy
       env:
