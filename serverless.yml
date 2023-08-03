@@ -6,10 +6,10 @@ provider:
   stage: dev
   region: us-east-1
   environment:
-    DYNAMODB_TABLE_NAME: ${self:custom.postsTableName}
+    DYNAMODB_TABLE_NAME: becic-product-table
 
   custom:
-    postsTableName: posts-table-${self:provider.stage}
+    postsTableName: becic-product-table
 
   plugins:
     - serverless-iam-roles-per-function
@@ -91,7 +91,7 @@ resources:
     PostsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.postsTableName}
+        TableName: becic-product-table
         AttributeDefinitions:
           - AttributeName: postId
             AttributeType: S
