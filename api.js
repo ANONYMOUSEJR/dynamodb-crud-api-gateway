@@ -134,7 +134,7 @@ const getAllPost = async (event) => {
     const response = { statusCode: 200 };
 
     try {
-        const { Items } = await db.send( new ScanCommand({ TableName: process.env.DYNAMODB_TABLE_NAME }));
+        const { Items } = await db.send( new ScanCommand({ TableName: process.env.DYNAMO_TABLE_NAME }));
 
         response.body = JSON.stringify({
             message: "Successfully retrieved all post!",

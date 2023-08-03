@@ -14,7 +14,7 @@ provider:
 
   environment:
 
-    DYNAMODB_TABLE_NAME: ${self:custom.postsTableName}
+    DYNAMO_TABLE_NAME: ${self:custom.postsTableName}
 
  
 
