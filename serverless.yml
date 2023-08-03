@@ -1,4 +1,4 @@
-service: dynamodb-crud-api
+service: becic-dynamodb-crud-api
 
 provider:
   name: aws
@@ -6,10 +6,10 @@ provider:
   stage: dev
   region: us-east-1
   environment:
-    DYNAMODB_TABLE_NAME: becic-product-table
+    DYNAMODB_TABLE_NAME: ${self:custom.postsTableName}
 
   custom:
-    postsTableName: becic-product-table
+    postsTableName: posts-table-${self:provider.stage}
 
   plugins:
     - serverless-iam-roles-per-function
@@ -91,7 +91,7 @@ resources:
     PostsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: becic-product-table
+        TableName: ${self:custom.postsTableName}
         AttributeDefinitions:
           - AttributeName: postId
             AttributeType: S
