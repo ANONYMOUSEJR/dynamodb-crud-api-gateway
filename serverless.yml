@@ -46,7 +46,7 @@ functions:
 
       - http:
 
-          path: becic-post/{postId}
+          path: becic-post/{productId}
 
           method: GET
 
@@ -110,7 +110,7 @@ functions:
 
       - http:
 
-          path: becic-post/{postId}
+          path: becic-post/{productId}
 
           method: PUT
 
@@ -138,7 +138,7 @@ functions:
 
       - http:
 
-          path: becic-post/{postId}
+          path: becic-post/{productId}
 
           method: DELETE
 
@@ -196,13 +196,13 @@ resources:
 
         AttributeDefinitions:
 
-          - AttributeName: postId
+          - AttributeName: productId
 
             AttributeType: S
 
         KeySchema:
 
-          - AttributeName: postId
+          - AttributeName: productId
 
             KeyType: HASH
 
