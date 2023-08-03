@@ -9,7 +9,7 @@ provider:
     DYNAMODB_TABLE_NAME: ${self:custom.postsTableName}
 
   custom:
-    postsTableName: posts-table-${self:provider.stage}
+    postsTableName: becic-posts-table-${self:provider.stage}
 
   plugins:
     - serverless-iam-roles-per-function
@@ -17,7 +17,7 @@ provider:
 functions:
   getPost:
     handler: api.getPost
-    name: get-post
+    name: becic-get-post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
@@ -31,7 +31,7 @@ functions:
     Resource: !GetAtt PostTable.Arn
   createPost:
     handler: api.createPost
-    name: create-post
+    name: becic-create-post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
@@ -45,7 +45,7 @@ functions:
     Resource: !GetAtt PostTable.Arn
   updatePost:
     handler: api.updatePost
-    name: update-Post
+    name: becic-update-Post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
@@ -59,7 +59,7 @@ functions:
         Resource: !GetAtt PostTable.Arn
   deletePost:
     handler: api.deletePost
-    name: delete-Post
+    name: becic-delete-Post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
@@ -73,7 +73,7 @@ functions:
     Resource: !GetAtt PostTable.Arn
   getAllPosts:
     handler: api.getAllPosts
-    name: delete-Post
+    name: becic-delete-Post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
