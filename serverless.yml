@@ -1,213 +1,112 @@
 service: becic-dynamodb-crud-api
 
- 
-
 provider:
-
   name: aws
-
   runtime: nodejs16.x
-
   stage: dev
-
   region: us-east-1
 
   environment:
-
     DYNAMO_TABLE_NAME: ${self:custom.postsTableName}
 
- 
-
 custom:
-
   postsTableName: becic-posts-table-${self:provider.stage}
 
- 
-
 plugins:
-
   - serverless-iam-roles-per-function
 
- 
-
 functions:
-
   getPost:
-
     handler: api.getPost
-
     name: becic-get-post
-
     memorySize: 128 # mb
-
     timeout: 5 # seconds
-
     events:
-
       - http:
-
           path: becic-post/{productId}
-
           method: GET
-
           request: 
-
             parameters: 
-
               querystrings:
-
                 currency: false
-
     iamRoleStatements:
-
       - Effect: "Allow"
-
         Action:
-
           - "dynamodb:GetItem"
-
         Resource: !GetAtt PostsTable.Arn
 
   createPost:
-
     handler: api.createPost
-
     name: becic-create-post
-
     memorySize: 128 # mb
-
     timeout: 5 # seconds
-
     events:
-
       - http:
-
           path: becic-post
-
           method: POST
-
     iamRoleStatements:
-
       - Effect: "Allow"
-
         Action:
-
           - "dynamodb:PutItem"
-
         Resource: !GetAtt PostsTable.Arn
 
   updatePost:
-
     handler: api.updatePost
-
     name: becic-update-post
-
     memorySize: 128 # mb
-
     timeout: 5 # seconds
-
     events:
-
       - http:
-
           path: becic-post/{productId}
-
           method: PUT
-
     iamRoleStatements:
-
       - Effect: "Allow"
-
         Action:
-
           - "dynamodb:UpdateItem"
-
         Resource: !GetAtt PostsTable.Arn
 
   deletePost:
-
     handler: api.deletePost
-
     name: becic-delete-post
-
     memorySize: 128 # mb
-
     timeout: 5 # seconds
-
     events:
-
       - http:
-
           path: becic-post/{productId}
-
           method: DELETE
-
     iamRoleStatements:
-
       - Effect: "Allow"
-
         Action:
-
           - "dynamodb:DeleteItem"
-
         Resource: !GetAtt PostsTable.Arn
 
   getAllPosts:
-
     handler: api.getAllPosts
-
     name: becic-get-all-posts
-
     memorySize: 128 # mb
-
     timeout: 5 # seconds
-
     events:
-
       - http:
-
           path: becic-posts
-
           method: GET
-
     iamRoleStatements:
-
       - Effect: "Allow"
-
         Action:
-
           - "dynamodb:Scan"
-
         Resource: !GetAtt PostsTable.Arn
 
- 
-
 resources:
-
   Resources:
-
     PostsTable:
-
       Type: AWS::DynamoDB::Table
-
       Properties:
-
         TableName: ${self:custom.postsTableName}
-
         AttributeDefinitions:
-
           - AttributeName: productId
-
             AttributeType: S
-
         KeySchema:
-
           - AttributeName: productId
-
             KeyType: HASH
-
         ProvisionedThroughput:
-
           ReadCapacityUnits: 1
-
           WriteCapacityUnits: 1
