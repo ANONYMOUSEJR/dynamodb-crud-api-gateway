@@ -37,7 +37,7 @@ functions:
 
   createPost:
     handler: api.createPost
-    name: becic-create-post
+    name: Becic-create-post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
