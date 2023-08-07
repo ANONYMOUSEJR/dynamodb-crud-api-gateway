@@ -52,7 +52,7 @@ functions:
 
   updatePost:
     handler: api.updatePost
-    name: becic-update-post
+    name: Becic-update-post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
