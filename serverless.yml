@@ -1,4 +1,4 @@
-service: dev-becic-dynamodb-crud-api
+service: dev-anon-dynamodb-crud-api
 
 provider:
   name: aws
@@ -10,7 +10,7 @@ provider:
     DYNAMO_TABLE_NAME: ${self:custom.postsTableName}
 
 custom:
-  postsTableName: becic-posts-table-${self:provider.stage}
+  postsTableName: anon-posts-table-${self:provider.stage}
 
 plugins:
   - serverless-iam-roles-per-function
@@ -18,12 +18,12 @@ plugins:
 functions:
   getPost:
     handler: api.getPost
-    name: becic-get-post
+    name: anon-get-post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
       - http:
-          path: becic-post/{productId}
+          path: anon-post/{productId}
           method: GET
           request: 
             parameters: 
@@ -37,12 +37,12 @@ functions:
 
   createPost:
     handler: api.createPost
-    name: Becic-create-post
+    name: anon-create-post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
       - http:
-          path: becic-post
+          path: anon-post
           method: POST
     iamRoleStatements:
       - Effect: "Allow"
@@ -52,12 +52,12 @@ functions:
 
   updatePost:
     handler: api.updatePost
-    name: Becic-update-post
+    name: anon-update-post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
       - http:
-          path: becic-post/{productId}
+          path: anon-post/{productId}
           method: PUT
     iamRoleStatements:
       - Effect: "Allow"
@@ -67,12 +67,12 @@ functions:
 
   deletePost:
     handler: api.deletePost
-    name: becic-delete-post
+    name: anon-delete-post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
       - http:
-          path: becic-post/{productId}
+          path: anon-post/{productId}
           method: DELETE
     iamRoleStatements:
       - Effect: "Allow"
@@ -82,12 +82,12 @@ functions:
 
   getAllPosts:
     handler: api.getAllPosts
-    name: becic-get-all-posts
+    name: anon-get-all-posts
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
       - http:
-          path: becic-posts
+          path: anon-posts
           method: GET
     iamRoleStatements:
       - Effect: "Allow"
