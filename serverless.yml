@@ -1,4 +1,6 @@
 service: dev-anon-dynamodb-crud-api
+// API KEY FOR CONVERSION: 613501719a-93e03da33c-rz4b6y
+
 
 provider:
   name: aws
@@ -10,6 +12,7 @@ provider:
     DYNAMO_TABLE_NAME: ${self:custom.postsTableName}
 
 custom:
+  tableName: goods-cost
   postsTableName: anon-posts-table-${self:provider.stage}
 
 plugins:
@@ -110,3 +113,14 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    DynamoTableItems:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName:${self:custom.tableName} // Referencing this file, the tableName.
+        AttributeDefinitions:
+          - AttributeName: ID // Because it's an array we use the (-).
+            AttributeType: S // For string.
+        KeySchema:
+          - AttributeName: ID
+            KeyType: HASH // Tells dyynamo exactly what type of format these attributes are in.
+      BillingMode: PAY_PER_REQUEST // Makes it so that we only have to pay for what we use.
