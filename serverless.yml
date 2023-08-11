@@ -1,102 +1,98 @@
 service: dev-anon-dynamodb-crud-api
-// API KEY FOR CONVERSION: 613501719a-93e03da33c-rz4b6y
+# API KEY FOR CONVERSION: 613501719a-93e03da33c-rz4b6y
 
 
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs18.x
   stage: dev
   region: us-east-1
 
   environment:
-    DYNAMO_TABLE_NAME: ${self:custom.postsTableName}
+    DYNAMO_TABLE_NAME: ${self:custom.ProductstableName}
 
 custom:
-  tableName: goods-cost
-  postsTableName: anon-posts-table-${self:provider.stage}
+  ProductsTableName: goods-table-${self:provider.stage}
 
 plugins:
   - serverless-iam-roles-per-function
 
 functions:
-  getPost:
-    handler: api.getPost
-    name: anon-get-post
-    memorySize: 128 # mb
-    timeout: 5 # seconds
-    events:
-      - http:
-          path: anon-post/{productId}
-          method: GET
-          request: 
-            parameters: 
-              querystrings:
-                currency: false
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-          - "dynamodb:GetItem"
-        Resource: !GetAtt PostsTable.Arn
 
-  createPost:
-    handler: api.createPost
-    name: anon-create-post
+  getProduct:
+    handler: api.getProduct
+    name: anon-get-product
     memorySize: 128 # mb
-    timeout: 5 # seconds
-    events:
+    timeout: 5 # sec
+    events: 
       - http:
-          path: anon-post
-          method: POST
-    iamRoleStatements:
+        path: anon-product/{productId}
+        method: GET
+    iamRoleStatements: # Identity & Access Managment
       - Effect: "Allow"
-        Action:
-          - "dynamodb:PutItem"
-        Resource: !GetAtt PostsTable.Arn
+      Action:
+        - "dynamodb:GetItem"
+      Resource: !GetAtt ProductsTable.Arn
 
-  updatePost:
-    handler: api.updatePost
-    name: anon-update-post
+  createProduct:
+    handler: api.createProduct
+    name: anon-create-product
     memorySize: 128 # mb
-    timeout: 5 # seconds
-    events:
+    timeout: 5 # sec
+    events: 
       - http:
-          path: anon-post/{productId}
-          method: PUT
-    iamRoleStatements:
+        path: anon-product
+        method: POST
+    iamRoleStatements: # Identity & Access Managment
       - Effect: "Allow"
-        Action:
-          - "dynamodb:UpdateItem"
-        Resource: !GetAtt PostsTable.Arn
+      Action:
+        - "dynamodb:PutItem"
+      Resource: !GetAtt ProductsTable.Arn
 
-  deletePost:
-    handler: api.deletePost
-    name: anon-delete-post
+  updateProduct:
+    handler: api.updateProduct
+    name: anon-update-product
     memorySize: 128 # mb
-    timeout: 5 # seconds
-    events:
+    timeout: 5 # sec
+    events: 
       - http:
-          path: anon-post/{productId}
-          method: DELETE
-    iamRoleStatements:
+        path: anon-product/{productId}
+        method: PUT
+    iamRoleStatements: # Identity & Access Managment
       - Effect: "Allow"
-        Action:
-          - "dynamodb:DeleteItem"
-        Resource: !GetAtt PostsTable.Arn
+      Action:
+        - "dynamodb:UpdateItem"
+      Resource: !GetAtt ProductsTable.Arn
 
-  getAllPosts:
-    handler: api.getAllPosts
-    name: anon-get-all-posts
+  deleteProduct:
+    handler: api.deleteProduct
+    name: anon-delete-product
     memorySize: 128 # mb
-    timeout: 5 # seconds
-    events:
+    timeout: 5 # sec
+    events: 
       - http:
-          path: anon-posts
-          method: GET
-    iamRoleStatements:
+        path: anon-product/{productId}
+        method: DELETE
+    iamRoleStatements: # Identity & Access Managment
       - Effect: "Allow"
-        Action:
-          - "dynamodb:Scan"
-        Resource: !GetAtt PostsTable.Arn
+      Action:
+        - "dynamodb:DeleteItem"
+      Resource: !GetAtt ProductsTable.Arn
+
+  getAllProducts:
+    handler: api.getAllProducts
+    name: anon-get-all-products
+    memorySize: 128 # mb
+    timeout: 5 # sec
+    events: 
+      - http:
+        path: anon-products
+        method: GET
+    iamRoleStatements: # Identity & Access Managment
+      - Effect: "Allow"
+      Action:
+        - "dynamodb:Scan"
+      Resource: !GetAtt ProductsTable.Arn
 
 resources:
   Resources:
@@ -116,11 +112,15 @@ resources:
     DynamoTableItems:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName:${self:custom.tableName} // Referencing this file, the tableName.
+        TableName:${self:custom.productsTableName} # Referencing this file, the tableName.
         AttributeDefinitions:
-          - AttributeName: ID // Because it's an array we use the (-).
-            AttributeType: S // For string.
+          - AttributeName: ID # Because it's an array we use the (-).
+            AttributeType: S # For string.
         KeySchema:
           - AttributeName: ID
-            KeyType: HASH // Tells dyynamo exactly what type of format these attributes are in.
-      BillingMode: PAY_PER_REQUEST // Makes it so that we only have to pay for what we use.
+            KeyType: HASH # Tells dynamo exactly what type of format these attributes are in.
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+      # BillingMode: PAY_PER_REQUEST # Makes it so that we only have to pay for what we use.
+      # bool IAMPOORBOI = 1;
