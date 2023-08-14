@@ -18,7 +18,6 @@ plugins:
   - serverless-iam-roles-per-function
 
 functions:
-
   getProduct:
     handler: api.getProduct
     name: anon-get-product
@@ -26,13 +25,13 @@ functions:
     timeout: 5 # sec
     events: 
       - http:
-        path: anon-product/{productId}
-        method: GET
-    iamRoleStatements: # Identity & Access Managment
+          path: anon-product/{productId}
+          method: GET
+    iamRoleStatements: # Identity & Access Management
       - Effect: "Allow"
-      Action:
-        - "dynamodb:GetItem"
-      Resource: !GetAtt ProductsTable.Arn
+        Action:
+          - "dynamodb:GetItem"
+        Resource: !GetAtt ProductsTable.Arn
 
   createProduct:
     handler: api.createProduct
@@ -123,4 +122,4 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
       # BillingMode: PAY_PER_REQUEST # Makes it so that we only have to pay for what we use.
-      # bool IAMPOORBOI = 1;
+      # const bool IAMPOORBOI = 1;
