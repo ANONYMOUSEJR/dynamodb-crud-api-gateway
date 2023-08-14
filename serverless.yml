@@ -111,7 +111,7 @@ resources:
     DynamoTableItems:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName:${self:custom.productsTableName} # Referencing this file, the tableName.
+        TableName: ${self:custom.productsTableName} # Referencing this file, the tableName.
         AttributeDefinitions:
           - AttributeName: ID # Because it's an array we use the (-).
             AttributeType: S # For string.
