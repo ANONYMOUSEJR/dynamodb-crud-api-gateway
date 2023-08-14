@@ -9,7 +9,7 @@ provider:
   region: us-east-1
 
   environment:
-    DYNAMO_TABLE_NAME: ${self:custom.ProductstableName}
+    DYNAMO_TABLE_NAME: ${self:custom.productstableName}
 
 custom:
   ProductsTableName: goods-table-${self:provider.stage}
