@@ -44,9 +44,9 @@ functions:
         method: POST
     iamRoleStatements: # Identity & Access Managment
       - Effect: "Allow"
-      Action:
-        - "dynamodb:PutItem"
-      Resource: !GetAtt ProductsTable.Arn
+        Action:
+          - "dynamodb:PutItem"
+        Resource: !GetAtt ProductsTable.Arn
 
   updateProduct:
     handler: api.updateProduct
@@ -59,9 +59,9 @@ functions:
         method: PUT
     iamRoleStatements: # Identity & Access Managment
       - Effect: "Allow"
-      Action:
-        - "dynamodb:UpdateItem"
-      Resource: !GetAtt ProductsTable.Arn
+        Action:
+          - "dynamodb:UpdateItem"
+        Resource: !GetAtt ProductsTable.Arn
 
   deleteProduct:
     handler: api.deleteProduct
@@ -74,9 +74,9 @@ functions:
         method: DELETE
     iamRoleStatements: # Identity & Access Managment
       - Effect: "Allow"
-      Action:
-        - "dynamodb:DeleteItem"
-      Resource: !GetAtt ProductsTable.Arn
+        Action:
+          - "dynamodb:DeleteItem"
+        Resource: !GetAtt ProductsTable.Arn
 
   getAllProducts:
     handler: api.getAllProducts
@@ -89,9 +89,9 @@ functions:
         method: GET
     iamRoleStatements: # Identity & Access Managment
       - Effect: "Allow"
-      Action:
-        - "dynamodb:Scan"
-      Resource: !GetAtt ProductsTable.Arn
+        Action:
+          - "dynamodb:Scan"
+        Resource: !GetAtt ProductsTable.Arn
 
 resources:
   Resources:
