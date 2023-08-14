@@ -95,19 +95,6 @@ functions:
 
 resources:
   Resources:
-    PostsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:custom.postsTableName}
-        AttributeDefinitions:
-          - AttributeName: productId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: productId
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
     DynamoTableItems:
       Type: AWS::DynamoDB::Table
       Properties:
